@@ -1,6 +1,6 @@
 <?php
 /*
-// ドライバ呼び出しを使用してデータベースに接続
+// ドライバ呼び出しを使用してデータベースに接続（DB接続情報）
 $dsn = 'mysql:dbname=casteria;host=127.0.0.1';
 $user = 'root';
 $password = 'xampp1235';

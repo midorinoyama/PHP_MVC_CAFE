@@ -1,5 +1,5 @@
 <?php
-
+//データ操作やDB接続を担当,モデル＝テーブル
 // require_once(ROOT_PATH .'Models/Db.php');
 
 class Contact extends Db

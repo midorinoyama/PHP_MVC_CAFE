@@ -1,4 +1,5 @@
 <?php
+//処理振り分けを担当
 //require_once(ROOT_PATH .'Models/Contact.php');
 
 class ContactController

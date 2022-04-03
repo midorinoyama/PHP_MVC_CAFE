@@ -14,7 +14,7 @@
                     <a class="nav-link" href="#">Food</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Drink</a>
+                    <a class="nav-link" href="./test.php">Drink</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="./contact.php">お問合せ</a>
