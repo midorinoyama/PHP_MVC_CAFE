@@ -1,8 +1,8 @@
 <?php
 //データ操作やDB接続を担当,モデル＝テーブル
-// require_once(ROOT_PATH .'Models/Db.php');
+// require_once('./Db.php');
 
-class Contact extends Db
+/*class Contact extends Db
 {
     public function __construct($dbh = null)
     {
@@ -39,4 +39,4 @@ class Contact extends Db
         $count = $sth->fetchColumn();
         return $count;
     }
-}
+}*/

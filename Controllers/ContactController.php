@@ -1,8 +1,8 @@
 <?php
 //処理振り分けを担当
-//require_once(ROOT_PATH .'Models/Contact.php');
+//require_once('../Models/Contact.php');
 
-class ContactController
+/*class ContactController
 {
     private $request;   // リクエストパラメータ(GET,POST)
     private $Contact;    // Contactモデル
@@ -35,4 +35,4 @@ class ContactController
         ];
         return $params;
     }
-}
+}*/

@@ -1,5 +1,5 @@
 <?php
-//require_once(ROOT_PATH .'../database.php');
+require_once('../database.php');
 
 class Db
 {
@@ -8,8 +8,13 @@ class Db
     public function __construct($dbh = null)
     {
         if (!$dbh) { // 接続情報が存在しない場合
+            $dsn = 'mysql:dbname=casteria;host=localhost;charset=utf8';
+            $user = 'root';
+            $password = 'xampp1235';
+
+            // 例外処理
             try {
-                $this->dbh = new PDO('mysql:dbname='.DB_NAME.';host='.DB_HOST, DB_USER, DB_PASSWD);
+                $this->dbh = new PDO($dsn, $user, $password);
                 // 接続成功
             } catch (PDOException $e) {
                 echo "接続失敗: " . $e->getMessage() . "\n";
