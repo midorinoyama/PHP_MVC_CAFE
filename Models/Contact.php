@@ -16,20 +16,28 @@ class Contact extends Db
     //データベースへ登録
     public function create()
     {
-        $name  = $_SESSION['name'];
-        $kana  = $_SESSION['kana'];
-        $tel   = $_SESSION['tel'];
-        $email = $_SESSION['email'];
-        $body  = $_SESSION['body'];
+        $name  = $_SESSION["name"];
+        $kana  = $_SESSION["kana"];
+        $tel   = $_SESSION["tel"];
+        $email = $_SESSION["email"];
+        $body  = $_SESSION["body"];
 
         try {
             //トランザクション開始(仮実行)
             $this->dbh->beginTransaction();
             //SQL文を実行する準備（prepareで構文チェック）
             $sql = "INSERT INTO contacts(name, kana, tel, email, body)
-            VALUES('$name', '$kana', '$tel', '$email', '$body')";
+            VALUES(:name, :kana, :tel, :email, :body)";
+            //プリペアドステートメントを用意
             $stmt = $this->dbh->prepare($sql);
-            //クエリを実行
+            //値をバインド
+            $stmt->bindValue(":name", $name, PDO::PARAMS_STR);
+            $stmt->bindValue(":kana", $kana, PDO::PARAMS_STR);
+            $stmt->bindValue(":tel", $tel, PDO::PARAMS_STR);
+            $stmt->bindValue(":email", $email, PDO::PARAMS_STR);
+            $stmt->bindValue(":body", $body, PDO::PARAMS_STR);
+
+            //プリペアドステートメント(クエリ)を実行
             $stmt->execute();
             //本実行
             $this->dbh->commit();
@@ -45,7 +53,7 @@ class Contact extends Db
     {
         try {
             $this->dbh->beginTransaction();
-            $sql = "SELECT * FROM contacts";
+            $sql = "SELECT * FROM contacts ORDER BY created_at ASC";
             $stmt = $this->dbh->prepare($sql);
             $stmt->execute();
             //カラム名(key)で配列を取得
