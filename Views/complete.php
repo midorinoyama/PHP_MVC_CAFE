@@ -1,5 +1,14 @@
 <?php
 require('../Controllers/ContactController.php');
+//ダイレクトアクセス禁止
+$referer = $_SERVER["HTTP_REFERER"];//ユーザー側のアクセス元ページ
+$url = "confirm.php";//こちらが指定するアクセス元ページ
+//指定するアクセス元と違った場合、引数の$urlに遷移させる
+if (!strstr($referer, $url)) {
+    header("Location: contact.php");
+    exit;
+}
+
 //*confirm画面でcreateすると、編集した場合、編集前の情報もDBに登録される
 $content = new ContactController();
 $all = $content->create();
@@ -20,6 +29,7 @@ $all = $content->create();
     <script defer src="../js/index.js"></script>
 </head>
 <body>
+  <h3>完了画面</h3>
     <p>お問い合わせ内容を送信しました。</p>
     <p>ありがとうございました。</p>
     <a href="./index.php">トップへ</a>

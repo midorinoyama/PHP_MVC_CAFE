@@ -1,5 +1,13 @@
 <?php
 require('../Controllers/ContactController.php');
+//ダイレクトアクセス禁止
+$referer = $_SERVER["HTTP_REFERER"];
+$url = "contact.php";
+if (!strstr($referer, $url)) {
+    header("Location: contact.php");
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -16,6 +24,7 @@ require('../Controllers/ContactController.php');
     <script defer src="../js/index.js"></script>
 </head>
 <body>
+  <h3>確認画面</h3>
 <form action="./complete.php" method="post"><!--次の画面に行く方法-->
     <label for="name">氏名</label><br/>
     <?php echo $_SESSION["name"] ?><br/>

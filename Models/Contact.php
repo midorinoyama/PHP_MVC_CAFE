@@ -25,10 +25,11 @@ class Contact extends Db
         try {
             //トランザクション開始(仮実行)
             $this->dbh->beginTransaction();
-            //prepareで構文チェック
-            $stmt = $this->dbh->prepare("INSERT INTO contacts(name, kana, tel, email, body)
-            VALUES('$name', '$kana', '$tel', '$email', '$body')");
-            //prepareを実行
+            //SQL文を実行する準備（prepareで構文チェック）
+            $sql = "INSERT INTO contacts(name, kana, tel, email, body)
+            VALUES('$name', '$kana', '$tel', '$email', '$body')";
+            $stmt = $this->dbh->prepare($sql);
+            //クエリを実行
             $stmt->execute();
             //本実行
             $this->dbh->commit();
@@ -38,6 +39,23 @@ class Contact extends Db
             echo "接続失敗: " . $e->getMessage() . "\n";
             exit();
         }
+    }
+
+    public function findAll()
+    {
+        try {
+            $this->dbh->beginTransaction();
+            $sql = "SELECT * FROM contacts";
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->execute();
+            //カラム名(key)で配列を取得
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $this->dbh->rollback();
+            echo "接続失敗: " . $e->getMessage() . "\n";
+            exit();
+        }
+        return $result;
     }
 
     /*

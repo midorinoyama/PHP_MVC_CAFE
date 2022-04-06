@@ -24,6 +24,12 @@ class ContactController
         $this->Contact->create();
     }
 
+    public function index()
+    {
+        //モデル内のデータをコントロールで受け取らないと、Viewsでインスタンス化してもNULLになる
+        $contacts = $this->Contact->findAll();
+        return $contacts;
+    }
     /*
     public function index()
     {

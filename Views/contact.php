@@ -1,5 +1,7 @@
 <?php
 require('../Controllers/ContactController.php');
+$contacts = new ContactController();
+$result = $contacts->index();
 
 //初回アクセス時はPOST変数がないためエラーになる、falseの「NULL」を代入
 $name = isset($_POST["name"]) ? $_POST["name"]: null;
@@ -35,7 +37,7 @@ if (!empty($_POST)) {
     }
 
     //エラーがない場合確認画面へ遷移
-    if (count($errors) == 0) {
+    if (count($errors) === 0) {
         //受け取った値をセッション変数に保持
         $_SESSION["name"]  = $_POST["name"];
         $_SESSION["kana"]  = $_POST["kana"];
@@ -63,6 +65,7 @@ if (!empty($_POST)) {
     <script defer src="../js/index.js"></script>
 </head>
 <body>
+  <h3>お問合せ</h3>
     <?php if (!empty($errors)) {
         echo '<div class="alert alert-danger" role="alert">';
         echo implode("<br>", $errors);
@@ -81,5 +84,23 @@ if (!empty($_POST)) {
     <textarea name="body" rows="8" cols="40"><?php echo $body ?></textarea><br/>
     <input type="submit" value="送信">
   </form>
+  <table border="1">
+    <tr>
+      <th>氏名</th>
+      <th>フリガナ</th>
+      <th>電話番号</th>
+      <th>メールアドレス</th>
+      <th>お問い合わせ内容</th>
+    </tr>
+    <?php foreach ($result as $value) { ?>
+    <tr>
+      <td><?php echo $value["name"]; ?></td>
+      <td><?php echo $value["kana"]; ?></td>
+      <td><?php echo $value["tel"]; ?></td>
+      <td><?php echo $value["email"]; ?></td>
+      <td><?php echo $value["body"]; ?></td>
+    </tr>
+    <?php } ?>
+  </table>
 </body>
 </html>
