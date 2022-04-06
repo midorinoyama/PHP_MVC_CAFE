@@ -14,7 +14,9 @@ class Db
 
             // 例外処理
             try {
-                $this->dbh = new PDO($dsn, $user, $password);
+                $this->dbh = new PDO($dsn, $user, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
                 // 接続成功
             } catch (PDOException $e) {
                 echo "接続失敗: " . $e->getMessage() . "\n";
