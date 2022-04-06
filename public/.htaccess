@@ -1,4 +1,4 @@
-<IfModule mod_rewrite.C>
+<IfModule mod_rewrite.c>
     RewriteEngine On
     #環境変数(パス,URL)にファイルが存在しないリクエストは
     RewriteCond %{REQUEST_FILENAME} !-f

@@ -25,21 +25,25 @@ class Db
         }
     }
 
-    public function get_db_handler()
+    //データベースハンドラを参照する
+    public function getDbHandler()
     {
         return $this->dbh;
     }
 
-    public function begin_transaction()
+    //トランザクション開始(データの更新処理を仮実行)
+    public function beginTransaction()
     {
         $this->dbh->beginTransaction();
     }
 
+    //トランザクション処理の本実行
     public function commit()
     {
         $this->dbh->commit();
     }
 
+    //トランザクション処理のキャンセル
     public function rollback()
     {
         $this->dbh->rollback();

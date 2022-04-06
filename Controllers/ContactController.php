@@ -1,8 +1,8 @@
 <?php
 //処理振り分けを担当
-//require_once('../Models/Contact.php');
+require_once('../Models/Contact.php');
 
-/*class ContactController
+class ContactController
 {
     private $request;   // リクエストパラメータ(GET,POST)
     private $Contact;    // Contactモデル
@@ -16,9 +16,15 @@
         // モデルオブジェクトの生成
         $this->Contact = new Contact();
         // 別モデルと連携
-        $dbh = $this->Contact->get_db_handler();
+        $dbh = $this->Contact->getDbHandler();
     }
 
+    public function create()
+    {
+        $this->Contact->create();
+    }
+
+    /*
     public function index()
     {
         $page = 0;
@@ -34,5 +40,5 @@
             'page' => $page // ページ番号
         ];
         return $params;
-    }
-}*/
+    }*/
+}

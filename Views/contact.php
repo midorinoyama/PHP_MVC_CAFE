@@ -1,80 +1,85 @@
 <?php
-// セッション登録開始
-session_start();
+require('../Controllers/ContactController.php');
 
-// データベースに接続
-//require('../database.php')
+//初回アクセス時はPOST変数がないためエラーになる、falseの「NULL」を代入
+$name = isset($_POST["name"]) ? $_POST["name"]: null;
+$kana = isset($_POST["kana"]) ? $_POST["kana"]: null;
+$tel  = isset($_POST["tel"]) ? $_POST["tel"]: null;
+$email = isset($_POST["email"]) ? $_POST["email"]: null;
+$body = isset($_POST["body"]) ? $_POST["body"]: null;
 
-$mode = "input";
-if (isset($_POST["back"]) && $_POST["back"]) {
-  //
-} elseif (isset($_POST["confirm"]) && $_POST["confirm"]) {
-    // 受け取った値をセッション変数に保持、キャンセルで戻ったページで表示
-    $_SESSION["name"]  = $_POST["name"];
-    $_SESSION["kana"]  = $_POST["kana"];
-    $_SESSION["tel"]   = $_POST["tel"];
-    $_SESSION["email"] = $_POST["email"];
-    $_SESSION["body"]  = $_POST["body"];
-    $mode = "confirm";
-} elseif (isset($_POST["send"]) && $_POST["send"]) {
-    $mode = "send";
-} else {
-    //  セッションの初期化
-    $_SESSION["name"]  = "";
-    $_SESSION["kana"]  = "";
-    $_SESSION["tel"]   = "";
-    $_SESSION["email"] = "";
-    $_SESSION["body"]  = "";
+$errors = [];
+if (!empty($_POST)) {
+    if (empty($_POST["name"])) {
+        $errors[] = "お名前は必須項目です";
+    } elseif (mb_strlen($_POST["name"]) > 10) {
+        $errors[] = "お名前は10文字以内で入力してください";
+    }
+
+    if (empty($_POST["kana"])) {
+        $errors[] = "フリガナは必須項目です";
+    } elseif (mb_strlen($_POST["kana"]) > 10) {
+        $errors[] = "フリガナは10文字以内で入力してください";
+    }
+
+    if (!preg_match("/^[0-9]+$/", $_POST["tel"])) {
+        $errors[] = "数字0-9のみで入力してください";
+    }
+
+    if (empty($_POST["email"])) {
+        $errors[] = "メールアドレスは必須項目です";
+    }
+
+    if (empty($_POST["body"])) {
+        $errors[] = "お問い合わせ内容は必須項目です";
+    }
+
+    //エラーがない場合確認画面へ遷移
+    if (count($errors) == 0) {
+        //受け取った値をセッション変数に保持
+        $_SESSION["name"]  = $_POST["name"];
+        $_SESSION["kana"]  = $_POST["kana"];
+        $_SESSION["tel"]   = $_POST["tel"];
+        $_SESSION["email"] = $_POST["email"];
+        $_SESSION["body"]  = $_POST["body"];
+        header("Location:confirm.php");
+        exit();
+    }
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>お問合せフォーム</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Casteria</title>
+    <link rel="stylesheet" type="text/css" href="../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css" />
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <script defer src="../js/index.js"></script>
 </head>
 <body>
-<?php if ($mode == "input") { ?>
-  <!--GETでアクセスされた時は入力画面表示-->
+    <?php if (!empty($errors)) {
+        echo '<div class="alert alert-danger" role="alert">';
+        echo implode("<br>", $errors);
+        echo "</div>";
+    } ?>
   <form action="./contact.php" method="post"><!--次の画面に行く方法-->
     <label for="name">氏名</label><br>
-    <input type="text" name="name" value="<?php echo $_SESSION["name"] ?>"><br/>
+    <input type="text" name="name" value="<?php echo $name ?>"><br/>
     <label for="kana">フリガナ</label><br/>
-    <input type="text" name="kana" value="<?php echo $_SESSION["kana"] ?>"><br/>
+    <input type="text" name="kana" value="<?php echo $kana ?>"><br/>
     <label for="tel">電話番号</label><br/>
-    <input type="tel" name="tel" value="<?php echo $_SESSION["tel"] ?>"><br/>
+    <input type="tel" name="tel" value="<?php echo $tel ?>"><br/>
     <label for="email">メールアドレス</label><br/>
-    <input type="email" name="email" value="<?php echo $_SESSION["email"] ?>"><br/>
+    <input type="email" name="email" value="<?php echo $email ?>"><br/>
     <label for="body">内容</label><br/>
-    <textarea name="body" rows="8" cols="40"><?php echo $_SESSION["body"] ?></textarea><br/>
-    <input type="submit" name="confirm" value="送信">
+    <textarea name="body" rows="8" cols="40"><?php echo $body ?></textarea><br/>
+    <input type="submit" value="送信">
   </form>
-<?php } elseif ($mode == "confirm") { ?>
-  <!--POSTでアクセスされた時は確認画面表示-->
-  <form action="./contact.php" method="post"><!--次の画面に行く方法-->
-    <label for="name">氏名</label><br/>
-    <?php echo $_SESSION["name"] ?><br/>
-    <label for="kana">フリガナ</label><br/>
-    <?php echo $_SESSION["kana"] ?><br/>
-    <label for="tel">電話番号</label><br/>
-    <?php echo $_SESSION["tel"] ?><br/>
-    <label for="email">メールアドレス</label><br/>
-    <?php echo $_SESSION["email"] ?><br/>
-    <label for="body">内容</label><br/>
-    <!--nl2br関数でフォームに入力された改行を表示-->
-    <?php echo nl2br($_SESSION["body"]) ?><br/>
-    <input type="submit" name="back" value="キャンセル">
-    <input type="submit" name="send" value="送信">
-  </form>
-<?php } else { ?>
-    <!--完了画面-->
-    <p>お問い合わせ内容を送信しました。</p>
-    <p>ありがとうございました。</p>
-    <input type="submit" name="top" value="トップへ">
-<?php } ?>
-
 </body>
 </html>
