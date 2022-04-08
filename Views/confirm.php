@@ -27,15 +27,15 @@ if (!strstr($referer, $url)) {
   <h3>確認画面</h3>
 <form action="./complete.php" method="post"><!--次の画面に行く方法-->
     <label for="name">氏名</label><br/>
-    <?php echo $_SESSION["name"] ?><br/>
+    <?php echo htmlspecialchars($_SESSION["name"], ENT_QUOTES, "UTF-8") ?><br/>
     <label for="kana">フリガナ</label><br/>
-    <?php echo $_SESSION["kana"] ?><br/>
+    <?php echo htmlspecialchars($_SESSION["kana"], ENT_QUOTES, "UTF-8") ?><br/>
     <label for="tel">電話番号</label><br/>
-    <?php echo $_SESSION["tel"] ?><br/>
+    <?php echo htmlspecialchars($_SESSION["tel"], ENT_QUOTES, "UTF-8") ?><br/>
     <label for="email">メールアドレス</label><br/>
-    <?php echo $_SESSION["email"] ?><br/>
+    <?php echo htmlspecialchars($_SESSION["email"], ENT_QUOTES, "UTF-8") ?><br/>
     <label for="body">内容</label><br/>
-    <?php echo nl2br($_SESSION["body"]) ?><br/>
+    <?php echo nl2br(htmlspecialchars($_SESSION["body"], ENT_QUOTES, "UTF-8")) ?><br/>
     <input type="button" onclick="history.back()" value="キャンセル">
     <input type="submit" value="送信">
   </form>

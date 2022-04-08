@@ -16,11 +16,11 @@ class Contact extends Db
     //データベースへ登録
     public function create()
     {
-        $name  = $_SESSION["name"];
-        $kana  = $_SESSION["kana"];
-        $tel   = $_SESSION["tel"];
-        $email = $_SESSION["email"];
-        $body  = $_SESSION["body"];
+        $name  = htmlspecialchars($_SESSION["name"], ENT_QUOTES, "UTF-8");
+        $kana  = htmlspecialchars($_SESSION["kana"], ENT_QUOTES, "UTF-8");
+        $tel   = htmlspecialchars($_SESSION["tel"], ENT_QUOTES, "UTF-8");
+        $email = htmlspecialchars($_SESSION["email"], ENT_QUOTES, "UTF-8");
+        $body  = htmlspecialchars($_SESSION["body"], ENT_QUOTES, "UTF-8");
 
         try {
             //トランザクション開始(仮実行)
@@ -31,11 +31,11 @@ class Contact extends Db
             //プリペアドステートメントを用意
             $stmt = $this->dbh->prepare($sql);
             //値をバインド
-            $stmt->bindValue(":name", $name, PDO::PARAMS_STR);
-            $stmt->bindValue(":kana", $kana, PDO::PARAMS_STR);
-            $stmt->bindValue(":tel", $tel, PDO::PARAMS_STR);
-            $stmt->bindValue(":email", $email, PDO::PARAMS_STR);
-            $stmt->bindValue(":body", $body, PDO::PARAMS_STR);
+            $stmt->bindValue(":name", $name, PDO::PARAM_STR);
+            $stmt->bindValue(":kana", $kana, PDO::PARAM_STR);
+            $stmt->bindValue(":tel", $tel, PDO::PARAM_STR);
+            $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+            $stmt->bindValue(":body", $body, PDO::PARAM_STR);
 
             //プリペアドステートメント(クエリ)を実行
             $stmt->execute();
