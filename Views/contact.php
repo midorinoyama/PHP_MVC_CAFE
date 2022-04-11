@@ -24,12 +24,15 @@ if (!empty($_POST)) {
         $errors[] = "フリガナは10文字以内で入力してください";
     }
 
-    if (!preg_match("/^[0-9]+$/", $_POST["tel"])) {
-        $errors[] = "数字0-9のみで入力してください";
-    }
+    //先頭が0-9いずれかの数字で始まり、残り9桁or10桁の半角数字
+    // if (!preg_match("/^[0-9]{9,10}/", $_POST["tel"])) {
+    //     $errors[] = "電話番号は数字0-9のみで入力してください";
+    // }
 
     if (empty($_POST["email"])) {
         $errors[] = "メールアドレスは必須項目です";
+    } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "メールアドレスを正しい形式で入力してください";
     }
 
     if (empty($_POST["body"])) {
@@ -59,7 +62,8 @@ if (!empty($_POST)) {
     <link rel="stylesheet" type="text/css" href="../css/base.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css" />
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <script defer src="../js/index.js"></script>
@@ -77,9 +81,9 @@ if (!empty($_POST)) {
     <label for="kana">フリガナ</label><br/>
     <input type="text" name="kana" value="<?php echo $kana ?>"><br/>
     <label for="tel">電話番号</label><br/>
-    <input type="tel" name="tel" value="<?php echo $tel ?>"><br/>
+    <input type="text" name="tel" value="<?php echo $tel ?>"><br/>
     <label for="email">メールアドレス</label><br/>
-    <input type="email" name="email" value="<?php echo $email ?>"><br/>
+    <input type="text" name="email" value="<?php echo $email ?>"><br/>
     <label for="body">内容</label><br/>
     <textarea name="body" rows="8" cols="40"><?php echo $body ?></textarea><br/>
     <input type="submit" value="送信">
@@ -91,6 +95,7 @@ if (!empty($_POST)) {
       <th>電話番号</th>
       <th>メールアドレス</th>
       <th>お問い合わせ内容</th>
+      <th></th>
     </tr>
     <?php foreach ($result as $value) { ?>
     <tr>
@@ -99,6 +104,7 @@ if (!empty($_POST)) {
       <td><?php echo $value["tel"]; ?></td>
       <td><?php echo $value["email"]; ?></td>
       <td><?php echo $value["body"]; ?></td>
+      <td><a href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
     </tr>
     <?php } ?>
   </table>

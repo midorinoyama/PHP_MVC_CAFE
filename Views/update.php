@@ -1,17 +1,15 @@
 <?php
 require('../Controllers/ContactController.php');
 //ダイレクトアクセス禁止
-$referer = $_SERVER["HTTP_REFERER"];//ユーザー側のアクセス元ページ
-$url = "confirm.php";//こちらが指定するアクセス元ページ
-//指定するアクセス元と違った場合、引数の$urlに遷移させる
+$referer = $_SERVER["HTTP_REFERER"];
+$url = "edit.php";
 if (!strstr($referer, $url)) {
     header("Location: contact.php");
     exit;
 }
 
-//*confirm画面でcreateすると、編集した場合、編集前の情報もDBに登録される
 $content = new ContactController();
-$data = $content->create();
+$data = $content->update();
 
 ?>
 <!DOCTYPE html>
@@ -30,9 +28,20 @@ $data = $content->create();
     <script defer src="../js/index.js"></script>
 </head>
 <body>
-  <h3>完了画面</h3>
-    <p>お問い合わせ内容を送信しました。</p>
-    <p>ありがとうございました。</p>
-    <a href="./index.php">トップへ</a>
+  <h3>編集確認画面</h3>
+<form action="./contact.php" method="post"><!--次の画面に行く方法-->
+    <label for="name">氏名</label><br/>
+    <?php echo htmlspecialchars($_SESSION["name"], ENT_QUOTES, "UTF-8") ?><br/>
+    <label for="kana">フリガナ</label><br/>
+    <?php echo htmlspecialchars($_SESSION["kana"], ENT_QUOTES, "UTF-8") ?><br/>
+    <label for="tel">電話番号</label><br/>
+    <?php echo htmlspecialchars($_SESSION["tel"], ENT_QUOTES, "UTF-8") ?><br/>
+    <label for="email">メールアドレス</label><br/>
+    <?php echo htmlspecialchars($_SESSION["email"], ENT_QUOTES, "UTF-8") ?><br/>
+    <label for="body">内容</label><br/>
+    <?php echo nl2br(htmlspecialchars($_SESSION["body"], ENT_QUOTES, "UTF-8")) ?><br/>
+    <input type="button" onclick="history.back()" value="キャンセル">
+    <input type="submit" value="更新">
+  </form>
 </body>
 </html>

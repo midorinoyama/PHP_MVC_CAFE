@@ -30,6 +30,17 @@ class ContactController
         $contacts = $this->Contact->findAll();
         return $contacts;
     }
+
+    public function edit()
+    {
+        $edits = $this->Contact->edit();
+        return $edits;
+    }
+
+    public function update()
+    {
+        $this->Contact->update();
+    }
     /*
     public function index()
     {

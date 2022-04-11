@@ -66,6 +66,63 @@ class Contact extends Db
         return $result;
     }
 
+    public function edit()
+    {
+        $id = $_GET["id"];
+        try {
+            $this->dbh->beginTransaction();
+            $sql = "SELECT * FROM contacts WHERE id = :id";
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = 0;
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $this->dbh->commit();
+        } catch (PDOException $e) {
+            $this->dbh->rollback();
+            echo "接続失敗: " . $e->getMessage() . "\n";
+            exit();
+        }
+        return $result;
+    }
+
+    public function update()
+    {
+        $_SESSION["id"]    = htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8");
+        $_SESSION["name"]  = htmlspecialchars($_POST["name"], ENT_QUOTES, "UTF-8");
+        $_SESSION["kana"]  = htmlspecialchars($_POST["kana"], ENT_QUOTES, "UTF-8");
+        $_SESSION["tel"]   = htmlspecialchars($_POST["tel"], ENT_QUOTES, "UTF-8");
+        $_SESSION["email"] = htmlspecialchars($_POST["email"], ENT_QUOTES, "UTF-8");
+        $_SESSION["body"]  = htmlspecialchars($_POST["body"], ENT_QUOTES, "UTF-8");
+
+        try {
+            //トランザクション開始(仮実行)
+            $this->dbh->beginTransaction();
+            //SQL文を実行する準備（prepareで構文チェック）
+            $sql = "UPDATE contacts SET name = :name, kana = :kana, tel = :tel, email = :email, body = :body
+            WHERE id = :id";
+            //プリペアドステートメントを用意
+            $stmt = $this->dbh->prepare($sql);
+            //値をバインド
+            $stmt->bindValue(":id", $_SESSION["id"], PDO::PARAM_INT);
+            $stmt->bindValue(":name", $_SESSION["name"], PDO::PARAM_STR);
+            $stmt->bindValue(":kana", $_SESSION["kana"], PDO::PARAM_STR);
+            $stmt->bindValue(":tel", $_SESSION["tel"], PDO::PARAM_STR);
+            $stmt->bindValue(":email", $_SESSION["email"], PDO::PARAM_STR);
+            $stmt->bindValue(":body", $_SESSION["body"], PDO::PARAM_STR);
+
+            //プリペアドステートメント(クエリ)を実行
+            $stmt->execute();
+            //本実行
+            $this->dbh->commit();
+        } catch (PDOException $e) {
+            //仮実行をキャンセル
+            $this->dbh->rollback();
+            echo "接続失敗: " . $e->getMessage() . "\n";
+            exit();
+        }
+    }
+
     /*
     // contactテーブルからデータをすべて取得（20件ごと）
     public function findAll($page = 0):Array
