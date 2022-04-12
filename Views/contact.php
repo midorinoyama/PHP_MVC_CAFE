@@ -96,6 +96,7 @@ if (!empty($_POST)) {
       <th>メールアドレス</th>
       <th>お問い合わせ内容</th>
       <th></th>
+      <th></th>
     </tr>
     <?php foreach ($result as $value) { ?>
     <tr>
@@ -103,8 +104,9 @@ if (!empty($_POST)) {
       <td><?php echo $value["kana"]; ?></td>
       <td><?php echo $value["tel"]; ?></td>
       <td><?php echo $value["email"]; ?></td>
-      <td><?php echo $value["body"]; ?></td>
+      <td><?php echo nl2br($value["body"]); ?></td>
       <td><a href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
+      <td><a href = "delete.php?id=<?php echo $value["id"]; ?>" onclick="return confirm('本当に削除しますか?')">削除</a></td>
     </tr>
     <?php } ?>
   </table>

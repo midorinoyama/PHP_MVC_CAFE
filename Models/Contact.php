@@ -68,6 +68,7 @@ class Contact extends Db
 
     public function edit()
     {
+        //レコードを特定
         $id = $_GET["id"];
         try {
             $this->dbh->beginTransaction();
@@ -117,6 +118,26 @@ class Contact extends Db
             $this->dbh->commit();
         } catch (PDOException $e) {
             //仮実行をキャンセル
+            $this->dbh->rollback();
+            echo "接続失敗: " . $e->getMessage() . "\n";
+            exit();
+        }
+    }
+
+    public function delete()
+    {
+        //レコードを特定
+        $id = $_GET["id"];
+        try {
+            $this->dbh->beginTransaction();
+            $sql = "DELETE FROM contacts WHERE id = :id";
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->dbh->commit();
+            //リダイレクト
+            header("Location: contact.php");
+        } catch (PDOException $e) {
             $this->dbh->rollback();
             echo "接続失敗: " . $e->getMessage() . "\n";
             exit();
