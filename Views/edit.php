@@ -50,10 +50,6 @@ if (!empty($_POST)) {
     }
 }
 
-var_dump($_POST);
-echo "<br>";
-var_dump($_SESSION);
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">
