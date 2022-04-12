@@ -2,30 +2,8 @@
 require('../Controllers/ContactController.php');
 $edits = new ContactController();
 $result = $edits->edit();
-/*
 $contacts = new ContactController();
-$result = $contacts->index();
-$id = $_GET["id"];
-
-try {
-    $dsn = 'mysql:dbname=casteria;host=localhost;charset=utf8';
-    $user = 'root';
-    $password = 'xampp1235';
-    $dbh = new PDO($dsn, $user, $password);
-    //$this->dbh->beginTransaction();
-    $sql = "SELECT * FROM contacts WHERE id = :id";
-    $stmt = $dbh->prepare($sql);
-    //$stmt->bindValue(":id", $id, PDO::PARAM_INT);
-    $stmt->execute(array(":id" => $_GET["id"]));
-    $result = 0;
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //$this->dbh->commit();
-    var_dump($result)."\n";
-} catch (PDOException $e) {
-    //$this->dbh->rollback();
-    echo "接続失敗: " . $e->getMessage() . "\n";
-    exit();
-}*/
+$all = $contacts->index();
 
 $errors = [];
 if (!empty($_POST)) {
@@ -42,9 +20,9 @@ if (!empty($_POST)) {
     }
 
     //先頭が0-9いずれかの数字で始まり、残り9桁or10桁の半角数字
-    // if (!preg_match("/^[0-9]{9,10}/", $_POST["tel"])) {
-    //     $errors[] = "電話番号は数字0-9のみで入力してください";
-    // }
+    if ($_POST["tel"] != "" && !preg_match("/^[0-9]{10,11}$/", $_POST["tel"])) {
+        $errors[] = "電話番号は数字0-9のみで入力してください";
+    }
 
     if (empty($_POST["email"])) {
         $errors[] = "メールアドレスは必須項目です";
@@ -67,10 +45,14 @@ if (!empty($_POST)) {
         $_SESSION["tel"]   = $_POST["tel"];
         $_SESSION["email"] = $_POST["email"];
         $_SESSION["body"]  = $_POST["body"];
-        header("Location:update.php");
+        header("Location:edit-confirm.php");
         exit();
     }
 }
+
+var_dump($_POST);
+echo "<br>";
+var_dump($_SESSION);
 
 ?>
 <!DOCTYPE html>
@@ -89,7 +71,7 @@ if (!empty($_POST)) {
     <script defer src="../js/index.js"></script>
 </head>
 <body>
-  <h3>編集画面</h3>
+  <h3>詳細画面</h3>
     <?php if (!empty($errors)) {
         echo '<div class="alert alert-danger" role="alert">';
         echo implode("<br>", $errors);
@@ -97,8 +79,8 @@ if (!empty($_POST)) {
     } ?>
   <?php foreach ($result as $user) {
   } ?>
-  <form action="./update.php" method="post"><!--次の画面に行く方法-->
-    <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>">
+  <form action="" method="post"><!--次の画面に行く方法-->
+    <input type="hidden" name="id" value="<?php //echo $_GET["id"]; ?>">
     <label for="name">氏名</label><br>
     <input type="text" name="name" value="<?php echo $user["name"]; ?>"><br/>
     <label for="kana">フリガナ</label><br/>
@@ -109,7 +91,29 @@ if (!empty($_POST)) {
     <input type="text" name="email" value="<?php echo $user["email"]; ?>"><br/>
     <label for="body">内容</label><br/>
     <textarea name="body" rows="8" cols="40"><?php echo $user["body"]; ?></textarea><br/>
-    <input type="submit" value="編集確認画面へ">
+    <input type="submit" value="編集する">
   </form>
+  <table border="1">
+    <tr>
+      <th>氏名</th>
+      <th>フリガナ</th>
+      <th>電話番号</th>
+      <th>メールアドレス</th>
+      <th>お問い合わせ内容</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <?php foreach ($all as $value) { ?>
+    <tr>
+      <td><?php echo $value["name"]; ?></td>
+      <td><?php echo $value["kana"]; ?></td>
+      <td><?php echo $value["tel"]; ?></td>
+      <td><?php echo $value["email"]; ?></td>
+      <td><?php echo nl2br($value["body"]); ?></td>
+      <td><a href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
+      <td><a href = "delete.php?id=<?php echo $value["id"]; ?>" onclick="return confirm('本当に削除しますか?')">削除</a></td>
+    </tr>
+    <?php } ?>
+  </table>
 </body>
 </html>

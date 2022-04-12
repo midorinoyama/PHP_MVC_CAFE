@@ -75,6 +75,7 @@ class Contact extends Db
             $sql = "SELECT * FROM contacts WHERE id = :id";
             $stmt = $this->dbh->prepare($sql);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+            //$stmt->execute(array(":id" => $_GET["id"])); バインド省略可
             $stmt->execute();
             $result = 0;
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -89,12 +90,12 @@ class Contact extends Db
 
     public function update()
     {
-        $_SESSION["id"]    = htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8");
-        $_SESSION["name"]  = htmlspecialchars($_POST["name"], ENT_QUOTES, "UTF-8");
-        $_SESSION["kana"]  = htmlspecialchars($_POST["kana"], ENT_QUOTES, "UTF-8");
-        $_SESSION["tel"]   = htmlspecialchars($_POST["tel"], ENT_QUOTES, "UTF-8");
-        $_SESSION["email"] = htmlspecialchars($_POST["email"], ENT_QUOTES, "UTF-8");
-        $_SESSION["body"]  = htmlspecialchars($_POST["body"], ENT_QUOTES, "UTF-8");
+        $_POST["id"]    = htmlspecialchars($_SESSION["id"], ENT_QUOTES, "UTF-8");
+        $_POST["name"]  = htmlspecialchars($_SESSION["name"], ENT_QUOTES, "UTF-8");
+        $_POST["kana"]  = htmlspecialchars($_SESSION["kana"], ENT_QUOTES, "UTF-8");
+        $_POST["tel"]   = htmlspecialchars($_SESSION["tel"], ENT_QUOTES, "UTF-8");
+        $_POST["email"] = htmlspecialchars($_SESSION["email"], ENT_QUOTES, "UTF-8");
+        $_POST["body"]  = htmlspecialchars($_SESSION["body"], ENT_QUOTES, "UTF-8");
 
         try {
             //トランザクション開始(仮実行)
@@ -105,17 +106,18 @@ class Contact extends Db
             //プリペアドステートメントを用意
             $stmt = $this->dbh->prepare($sql);
             //値をバインド
-            $stmt->bindValue(":id", $_SESSION["id"], PDO::PARAM_INT);
-            $stmt->bindValue(":name", $_SESSION["name"], PDO::PARAM_STR);
-            $stmt->bindValue(":kana", $_SESSION["kana"], PDO::PARAM_STR);
-            $stmt->bindValue(":tel", $_SESSION["tel"], PDO::PARAM_STR);
-            $stmt->bindValue(":email", $_SESSION["email"], PDO::PARAM_STR);
-            $stmt->bindValue(":body", $_SESSION["body"], PDO::PARAM_STR);
+            $stmt->bindValue(":id", $_POST["id"], PDO::PARAM_INT);
+            $stmt->bindValue(":name", $_POST["name"], PDO::PARAM_STR);
+            $stmt->bindValue(":kana", $_POST["kana"], PDO::PARAM_STR);
+            $stmt->bindValue(":tel", $_POST["tel"], PDO::PARAM_STR);
+            $stmt->bindValue(":email", $_POST["email"], PDO::PARAM_STR);
+            $stmt->bindValue(":body", $_POST["body"], PDO::PARAM_STR);
 
             //プリペアドステートメント(クエリ)を実行
             $stmt->execute();
             //本実行
             $this->dbh->commit();
+            header("Location: contact.php");
         } catch (PDOException $e) {
             //仮実行をキャンセル
             $this->dbh->rollback();
@@ -143,37 +145,4 @@ class Contact extends Db
             exit();
         }
     }
-
-    /*
-    // contactテーブルからデータをすべて取得（20件ごと）
-    public function findAll($page = 0):Array
-    {
-        $sql = 'SELECT';
-        $sql .= ' contacts.id,';
-        $sql .= ' contacts.name,';
-        $sql .= ' contacts.kana,';
-        $sql .= ' contacts.tel,';
-        $sql .= ' contacts.email';
-        $sql .= ' contacts.body,';
-        $sql .= ' contacts.created_at,';
-        $sql .= ' FROM contacts';
-        $sql .= ' LIMIT 20 OFFSET '.(20 * $page);
-        $sth = $this->dbh->prepare($sql);
-        $sth->execute();
-        $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }*/
-
-     // contactsテーブルから全データ数を取得
-
-     // @return Int $count お問い合わせの全件数
-    /*
-    public function countAll():Int
-    {
-        $sql = 'SELECT count(*) as count FROM contacts';
-        $sth = $this->dbh->prepare($sql);
-        $sth->execute();
-        $count = $sth->fetchColumn();
-        return $count;
-    }*/
 }

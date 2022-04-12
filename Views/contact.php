@@ -6,7 +6,7 @@ $result = $contacts->index();
 //初回アクセス時はPOST変数がないためエラーになる、falseの「NULL」を代入
 $name = isset($_POST["name"]) ? $_POST["name"]: null;
 $kana = isset($_POST["kana"]) ? $_POST["kana"]: null;
-$tel  = isset($_POST["tel"]) ? $_POST["tel"]: null;
+$tel = isset($_POST["tel"]) ? $_POST["tel"]: null;
 $email = isset($_POST["email"]) ? $_POST["email"]: null;
 $body = isset($_POST["body"]) ? $_POST["body"]: null;
 
@@ -24,10 +24,10 @@ if (!empty($_POST)) {
         $errors[] = "フリガナは10文字以内で入力してください";
     }
 
-    //先頭が0-9いずれかの数字で始まり、残り9桁or10桁の半角数字
-    // if (!preg_match("/^[0-9]{9,10}/", $_POST["tel"])) {
-    //     $errors[] = "電話番号は数字0-9のみで入力してください";
-    // }
+    //先頭が0-9いずれかの数字で始まり、10桁or11桁の半角数字
+    if ($_POST["tel"] != "" && !preg_match("/^[0-9]{10,11}$/", $_POST["tel"])) {
+        $errors[] = "電話番号は数字0-9のみで入力してください";
+    }
 
     if (empty($_POST["email"])) {
         $errors[] = "メールアドレスは必須項目です";
