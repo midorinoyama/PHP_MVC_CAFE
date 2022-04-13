@@ -63,6 +63,7 @@ if (!strstr($referer, $url)) {
             </div>
             <div class="form-group text-center">
               <button type="button" class="btn btn-danger" onclick="history.back()">キャンセル</button>
+              <!--<a class="btn btn-info btn-sm" href="./contact.php">キャンセル</a>-->
               <button type="submit" class="btn btn-primary">送信</button>
             </div>
           </form>

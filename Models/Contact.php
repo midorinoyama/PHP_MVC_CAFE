@@ -1,10 +1,9 @@
 <?php
 //データ操作やDB接続を担当,モデル＝テーブル
 require_once('Db.php');
-// セッション登録開始
+//セッションの期限切れ対策(入力エラー後の確認画面から戻るで値を保持できる)
+session_cache_limiter("private_no_expire");
 session_start();
-//*入力チェックにエラーがあった後、確認画面でキャンセルするとフォーム再送信の確認がでてしまう
-//セッションの有効期限切れ
 
 class Contact extends Db
 {

@@ -42,11 +42,11 @@ if (!empty($_POST)) {
     //エラーがない場合確認画面へ遷移
     if (count($errors) === 0) {
         //受け取った値をセッション変数に保持
-        $_SESSION["name"]  = $_POST["name"];
-        $_SESSION["kana"]  = $_POST["kana"];
-        $_SESSION["tel"]   = $_POST["tel"];
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["body"]  = $_POST["body"];
+        $_SESSION["name"]  = $name;
+        $_SESSION["kana"]  = $kana;
+        $_SESSION["tel"]   = $tel;
+        $_SESSION["email"] = $email;
+        $_SESSION["body"]  = $body;
         header("Location:confirm.php");
         exit();
     }
