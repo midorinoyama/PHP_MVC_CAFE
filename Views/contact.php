@@ -13,9 +13,9 @@ $body = isset($_POST["body"]) ? $_POST["body"]: null;
 $errors = [];
 if (!empty($_POST)) {
     if (empty($_POST["name"])) {
-        $errors[] = "お名前は必須項目です";
+        $errors[] = "氏名は必須項目です";
     } elseif (mb_strlen($_POST["name"]) > 10) {
-        $errors[] = "お名前は10文字以内で入力してください";
+        $errors[] = "氏名は10文字以内で入力してください";
     }
 
     if (empty($_POST["kana"])) {
