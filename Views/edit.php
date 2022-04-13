@@ -2,8 +2,6 @@
 require('../Controllers/ContactController.php');
 $edits = new ContactController();
 $result = $edits->edit();
-$contacts = new ContactController();
-$all = $contacts->index();
 
 $errors = [];
 if (!empty($_POST)) {
@@ -105,36 +103,6 @@ if (!empty($_POST)) {
                     <button type="submit" class="btn btn-primary" onclick="check()">編集する</button>
                 </div>
           </form>
-        </div>
-        <div class="col-md-12 col-xs-12 mx-auto">
-        <h3 class="head-title my-3 text-center">お問合せ内容一覧</h3>
-          <table class="table table-bordered table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th>氏名</th>
-                <th>フリガナ</th>
-                <th>電話番号</th>
-                <th>メールアドレス</th>
-                <th>お問い合わせ内容</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody class="bg-light">
-              <?php foreach ($result as $value) { ?>
-                <tr>
-                  <td class="align-middle"><?php echo $value["name"];?></td>
-                  <td class="align-middle"><?php echo $value["kana"]; ?></td>
-                  <td class="align-middle"><?php echo $value["tel"]; ?></td>
-                  <td class="align-middle"><?php echo $value["email"]; ?></td>
-                  <td class="align-middle"><?php echo nl2br($value["body"]); ?></td>
-                  <td class="align-middle"><a class="btn btn-info" href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
-                  <td class="align-middle"><a class="btn btn-danger" href = "delete.php?id=<?php echo $value["id"]; ?>"
-                        onclick="return confirm('本当に削除しますか?')">削除</a></td>
-                </tr>
-              <?php } ?>
-            </tbody>
-          </table>
         </div>
       </div>
       <?php include("footer.php") ?>
