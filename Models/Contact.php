@@ -2,7 +2,8 @@
 //データ操作やDB接続を担当,モデル＝テーブル
 require_once('Db.php');
 //セッションの期限切れ対策(入力エラー後の確認画面から戻るで値を保持できる)
-session_cache_limiter("private_no_expire");
+//private_no_expireにすると、データを削除した際にリロードしないと削除できなくなる
+session_cache_limiter("none");
 session_start();
 
 class Contact extends Db
@@ -68,6 +69,7 @@ class Contact extends Db
     public function edit()
     {
         //レコードを特定
+        //$id = htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8");
         $id = $_GET["id"];
         try {
             $this->dbh->beginTransaction();
@@ -128,6 +130,7 @@ class Contact extends Db
     public function delete()
     {
         //レコードを特定
+        //$id = htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8");
         $id = $_GET["id"];
         try {
             $this->dbh->beginTransaction();

@@ -102,7 +102,7 @@ if (!empty($_POST)) {
               <textarea class="form-control" name="body" rows="8" cols="40" placeholder="お問い合わせ内容はこちらにご入力ください"><?php echo $body; ?></textarea>
             </div>
             <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary" onclick="check()">送信</button>
+              <button type="submit" class="btn btn-primary" onclick="check()">送信</button>
             </div>
           </form>
         </div>
@@ -128,9 +128,8 @@ if (!empty($_POST)) {
                   <td class="align-middle"><?php echo $value["tel"]; ?></td>
                   <td class="align-middle"><?php echo $value["email"]; ?></td>
                   <td class="align-middle"><?php echo nl2br($value["body"]); ?></td>
-                  <td class="align-middle"><a class="btn btn-info" href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
-                  <td class="align-middle"><a class="btn btn-danger" href = "delete.php?id=<?php echo $value["id"]; ?>"
-                        onclick="return confirm('本当に削除しますか?')">削除</a></td>
+                  <td class="align-middle"><a class="btn btn-info" href="edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
+                  <td class="align-middle"><a class="btn btn-danger" href="delete.php?id=<?php echo $value["id"]; ?>" onclick="return confirm('本当に削除しますか?')">削除</a></td>
                 </tr>
               <?php } ?>
             </tbody>

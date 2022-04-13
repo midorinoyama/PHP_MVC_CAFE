@@ -3,6 +3,14 @@ require('../Controllers/ContactController.php');
 $edits = new ContactController();
 $result = $edits->edit();
 
+//記述無しでも直接アクセスできない（記述すると編集できなくなる）
+// $referer = $_SERVER["HTTP_REFERER"];
+// $url = "contact.php";
+// if (!strstr($referer, $url)) {
+//     header("Location: contact.php");
+//     exit;
+// }
+
 $errors = [];
 if (!empty($_POST)) {
     if (empty($_POST["name"])) {

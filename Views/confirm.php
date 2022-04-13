@@ -1,8 +1,8 @@
 <?php
 require('../Controllers/ContactController.php');
-//ダイレクトアクセス禁止
-$referer = $_SERVER["HTTP_REFERER"];
-$url = "contact.php";
+$referer = $_SERVER["HTTP_REFERER"];//ユーザー側のアクセス元ページ
+$url = "contact.php";//こちらが指定するアクセス元ページ
+//指定するアクセス元と違った場合、引数の$urlに遷移させる
 if (!strstr($referer, $url)) {
     header("Location: contact.php");
     exit;
