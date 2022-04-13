@@ -64,7 +64,7 @@ if (!empty($_POST)) {
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.7/css/swiper.min.css" />
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-    <script defer src="../js/index.js"></script>
+    <script defer src="../js/validate.js"></script>
 </head>
 <body>
   <div class="main">
@@ -80,7 +80,7 @@ if (!empty($_POST)) {
             } ?>
             <?php foreach ($result as $user) {
             } ?>
-            <form action="" method="post"><!--次の画面に行く方法-->
+            <form action="" method="post" name="contact_form"><!--次の画面に行く方法-->
                 <div class="form-group">
                     <label for="name">氏名</label>
                     <input type="text" class="form-control" name="name" value="<?php echo $user["name"]; ?>">
@@ -102,7 +102,7 @@ if (!empty($_POST)) {
                     <textarea class="form-control" name="body" rows="8" cols="40" ><?php echo $user["body"]; ?></textarea>
                 </div>
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary">編集する</button>
+                    <button type="submit" class="btn btn-primary" onclick="check()">編集する</button>
                 </div>
           </form>
         </div>

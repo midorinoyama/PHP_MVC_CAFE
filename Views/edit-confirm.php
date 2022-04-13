@@ -62,7 +62,7 @@ if (!strstr($referer, $url)) {
               <textarea class="form-control" rows="8" cols="40" readonly><?php echo htmlspecialchars($_SESSION["body"], ENT_QUOTES, "UTF-8"); ?></textarea>
             </div>
             <div class="form-group text-center">
-              <input type="button" onclick="history.back()" value="キャンセル">
+              <button type="button" class="btn btn-danger" onclick="history.back()">キャンセル</button>
               <button type="submit" class="btn btn-primary">更新</button>
             </div>
           </form>

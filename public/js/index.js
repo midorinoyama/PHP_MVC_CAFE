@@ -1,3 +1,7 @@
+function check(){
+	alert("thank you!");
+}
+
 $(function () {
     $('.ac-parent').on('click', function () {
     $(this).next().slideToggle();
