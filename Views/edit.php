@@ -67,49 +67,78 @@ if (!empty($_POST)) {
     <script defer src="../js/index.js"></script>
 </head>
 <body>
-  <h3>詳細画面</h3>
-    <?php if (!empty($errors)) {
-        echo '<div class="alert alert-danger" role="alert">';
-        echo implode("<br>", $errors);
-        echo "</div>";
-    } ?>
-  <?php foreach ($result as $user) {
-  } ?>
-  <form action="" method="post"><!--次の画面に行く方法-->
-    <input type="hidden" name="id" value="<?php //echo $_GET["id"]; ?>">
-    <label for="name">氏名</label><br>
-    <input type="text" name="name" value="<?php echo $user["name"]; ?>"><br/>
-    <label for="kana">フリガナ</label><br/>
-    <input type="text" name="kana" value="<?php echo $user["kana"]; ?>"><br/>
-    <label for="text">電話番号</label><br/>
-    <input type="text" name="tel" value="<?php echo $user["tel"]; ?>"><br/>
-    <label for="text">メールアドレス</label><br/>
-    <input type="text" name="email" value="<?php echo $user["email"]; ?>"><br/>
-    <label for="body">内容</label><br/>
-    <textarea name="body" rows="8" cols="40"><?php echo $user["body"]; ?></textarea><br/>
-    <input type="submit" value="編集する">
-  </form>
-  <table border="1">
-    <tr>
-      <th>氏名</th>
-      <th>フリガナ</th>
-      <th>電話番号</th>
-      <th>メールアドレス</th>
-      <th>お問い合わせ内容</th>
-      <th></th>
-      <th></th>
-    </tr>
-    <?php foreach ($all as $value) { ?>
-    <tr>
-      <td><?php echo $value["name"]; ?></td>
-      <td><?php echo $value["kana"]; ?></td>
-      <td><?php echo $value["tel"]; ?></td>
-      <td><?php echo $value["email"]; ?></td>
-      <td><?php echo nl2br($value["body"]); ?></td>
-      <td><a href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
-      <td><a href = "delete.php?id=<?php echo $value["id"]; ?>" onclick="return confirm('本当に削除しますか?')">削除</a></td>
-    </tr>
-    <?php } ?>
-  </table>
+  <div class="main">
+    <div class="container-fruid">
+      <?php include("header.php") ?>
+      <div class="row">
+        <div class="col-md-6 col-xs-12 mx-auto">
+          <h2 class="head-title my-3 text-center">詳細画面</h2>
+            <?php if (!empty($errors)) {
+                echo '<div class="alert alert-danger" role="alert">';
+                echo implode("<br>", $errors);
+                echo "</div>";
+            } ?>
+            <?php foreach ($result as $user) {
+            } ?>
+            <form action="" method="post"><!--次の画面に行く方法-->
+                <div class="form-group">
+                    <label for="name">氏名</label>
+                    <input type="text" class="form-control" name="name" value="<?php echo $user["name"]; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="kana">フリガナ</label>
+                    <input type="text" class="form-control" name="kana" value="<?php echo $user["kana"]; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="tel">電話番号</label>
+                    <input type="text" class="form-control" name="tel" value="<?php echo $user["tel"]; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="text" class="form-control" name="email" value="<?php echo $user["email"]; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="body">内容</label>
+                    <textarea class="form-control" name="body" rows="8" cols="40" ><?php echo $user["body"]; ?></textarea>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">編集する</button>
+                </div>
+          </form>
+        </div>
+        <div class="col-md-12 col-xs-12 mx-auto">
+        <h3 class="head-title my-3 text-center">お問合せ内容一覧</h3>
+          <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>氏名</th>
+                <th>フリガナ</th>
+                <th>電話番号</th>
+                <th>メールアドレス</th>
+                <th>お問い合わせ内容</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="bg-light">
+              <?php foreach ($result as $value) { ?>
+                <tr>
+                  <td class="align-middle"><?php echo $value["name"];?></td>
+                  <td class="align-middle"><?php echo $value["kana"]; ?></td>
+                  <td class="align-middle"><?php echo $value["tel"]; ?></td>
+                  <td class="align-middle"><?php echo $value["email"]; ?></td>
+                  <td class="align-middle"><?php echo nl2br($value["body"]); ?></td>
+                  <td class="align-middle"><a class="btn btn-info" href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
+                  <td class="align-middle"><a class="btn btn-danger" href = "delete.php?id=<?php echo $value["id"]; ?>"
+                        onclick="return confirm('本当に削除しますか?')">削除</a></td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <?php include("footer.php") ?>
+    </div>
+  </div>
 </body>
 </html>

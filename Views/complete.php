@@ -30,9 +30,23 @@ $data = $content->create();
     <script defer src="../js/index.js"></script>
 </head>
 <body>
-  <h3>完了画面</h3>
-    <p>お問い合わせ内容を送信しました。</p>
-    <p>ありがとうございました。</p>
-    <a href="./index.php">トップへ</a>
+    <div class="main">
+        <div class="container-fruid">
+            <?php include("header.php") ?>
+            <div class="row my-3">
+                <div class="col-md-12 col-xs-12">
+                    <h2 class="head-title my-3 text-center">完了画面</h2>
+                    <p class="contents text-center">
+                        お問い合わせ内容を送信しました。<br>
+                        ありがとうございました
+                    </p>
+                    <div class="text-center">
+                        <a class="btn btn-info btn-sm" href="./index.php">トップへ戻る</a>
+                    </div>
+            </div>
+            </div>
+            <?php include("footer.php") ?>
+        </div>
+    </div>
 </body>
 </html>

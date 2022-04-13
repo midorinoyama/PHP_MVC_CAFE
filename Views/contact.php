@@ -83,23 +83,23 @@ if (!empty($_POST)) {
           <form action="./contact.php" method="post"><!--次の画面に行く方法-->
             <div class="form-group">
               <label for="name">氏名</label>
-              <input type="text" class="form-control" name="name" placeholder="山田太郎" value="<?php echo $name ?>">
+              <input type="text" class="form-control" name="name" placeholder="山田太郎" value="<?php echo $name; ?>">
             </div>
             <div class="form-group">
               <label for="kana">フリガナ</label>
-              <input type="text" class="form-control" name="kana" placeholder="ヤマダタロウ" value="<?php echo $kana ?>">
+              <input type="text" class="form-control" name="kana" placeholder="ヤマダタロウ" value="<?php echo $kana; ?>">
             </div>
             <div class="form-group">
               <label for="tel">電話番号</label>
-              <input type="text" class="form-control" name="tel" placeholder="090-xxxx-xxxx" value="<?php echo $tel ?>">
+              <input type="text" class="form-control" name="tel" placeholder="090-xxxx-xxxx" value="<?php echo $tel; ?>">
             </div>
             <div class="form-group">
               <label for="email">メールアドレス</label>
-              <input type="text" class="form-control" name="email" placeholder="xxx@email.com" value="<?php echo $email ?>">
+              <input type="text" class="form-control" name="email" placeholder="example@email.com" value="<?php echo $email; ?>">
             </div>
             <div class="form-group">
               <label for="body">内容</label>
-              <textarea class="form-control" name="body" rows="8" cols="40" placeholder="お問い合わせ内容はこちらにご入力ください"><?php echo $body ?></textarea>
+              <textarea class="form-control" name="body" rows="8" cols="40" placeholder="お問い合わせ内容はこちらにご入力ください"><?php echo $body; ?></textarea>
             </div>
             <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">送信</button>
@@ -123,13 +123,14 @@ if (!empty($_POST)) {
             <tbody class="bg-light">
               <?php foreach ($result as $value) { ?>
                 <tr>
-                  <td><?php echo $value["name"];?></td>
-                  <td><?php echo $value["kana"]; ?></td>
-                  <td><?php echo $value["tel"]; ?></td>
-                  <td><?php echo $value["email"]; ?></td>
-                  <td><?php echo nl2br($value["body"]); ?></td>
-                  <td><a class="btn btn-info" href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
-                  <td><a class="btn btn-danger" href = "delete.php?id=<?php echo $value["id"]; ?>" onclick="return confirm('本当に削除しますか?')">削除</a></td>
+                  <td class="align-middle"><?php echo $value["name"];?></td>
+                  <td class="align-middle"><?php echo $value["kana"]; ?></td>
+                  <td class="align-middle"><?php echo $value["tel"]; ?></td>
+                  <td class="align-middle"><?php echo $value["email"]; ?></td>
+                  <td class="align-middle"><?php echo nl2br($value["body"]); ?></td>
+                  <td class="align-middle"><a class="btn btn-info" href = "edit.php?id=<?php echo $value["id"]; ?>">編集</a></td>
+                  <td class="align-middle"><a class="btn btn-danger" href = "delete.php?id=<?php echo $value["id"]; ?>"
+                        onclick="return confirm('本当に削除しますか?')">削除</a></td>
                 </tr>
               <?php } ?>
             </tbody>
